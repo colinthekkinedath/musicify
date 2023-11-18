@@ -7,7 +7,7 @@ const Page = () => {
     return (
         <div>
             <input className="bg-blue-300" value={prompt} onChange={e => setPrompt(e.target.value)}/>
-            <button type="submit" onSubmit={() => console.log(prompt)}>Submit</button>
+            <button type="submit" onClick={() => console.log(prompt)}>Submit</button>
         </div>
     )
 }
