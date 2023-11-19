@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const res = NextResponse;
-  const { query } = await req.json();
+  const { parameters } = await req.json();
   try {
     const response = await axios.post(
       "https://accounts.spotify.com/api/token",
@@ -20,13 +20,10 @@ export async function GET(req: Request) {
       },
     );
 
-    const searchResponse = await axios.get(
-      "https://api.spotify.com/v1/search",
+    const recommendations = await axios.get(
+      "https://api.spotify.com/v1/recommendations",
       {
-        params: {
-          q: query,
-          type: "artist",
-        },
+        params: parameters,
         headers: {
           Authorization: `Bearer ${response.data.access_token}`,
         },
@@ -34,7 +31,7 @@ export async function GET(req: Request) {
     );
 
     return res.json(
-      { message: "OK", result: searchResponse.data },
+      { message: "OK", result: recommendations.data },
       { status: 200 },
     );
   } catch (error) {

@@ -29,8 +29,20 @@ export default function Home() {
     try {
       const response = await axios.get("/api/search", {
         params: {
-          query: encodeURIComponent("genre:country"),
+          query: "genre:country",
         },
+      });
+      setResults(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const recs = async () => {
+    setRecommedation(messages[messages.length - 1].content);
+    try {
+      const response = await axios.get("/api/getRecs", {
+        params: recommednation,
       });
       setResults(response.data);
     } catch (error) {
