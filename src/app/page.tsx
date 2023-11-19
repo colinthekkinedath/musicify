@@ -43,7 +43,7 @@ export default function Home() {
             value={input}
             onChange={handleInputChange}
             rows={4}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5 text-stone-900"
             placeholder={
               'e.g. watching sunset on a beach'
             }
