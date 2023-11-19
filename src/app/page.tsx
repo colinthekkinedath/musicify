@@ -5,10 +5,13 @@ import Card from "./components/Card";
 import Footer from "./components/Footer";
 import { useChat } from "ai/react";
 import { useRef, useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
   const [description, setDescription] = useState("");
   const [recommednation, setRecommedation] = useState({});
+
+  const [results, setResults] = useState(null);
 
   const { input, handleInputChange, handleSubmit, isLoading, messages } =
     useChat({
@@ -20,6 +23,19 @@ export default function Home() {
   const onSubmit = (e: any) => {
     setDescription(input);
     handleSubmit(e);
+  };
+
+  const search = async () => {
+    try {
+      const response = await axios.get("/api/search", {
+        params: {
+          query: encodeURIComponent("genre:country"),
+        },
+      });
+      setResults(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const lastMessage = messages[messages.length - 1];
@@ -120,7 +136,8 @@ export default function Home() {
           genre={"genre"}
         />
       </div>
-      <button onClick={() => console.log(messages)}>console log</button>
+      <button onClick={search}>console log</button>
+      <button onClick={() => console.log(results)}>console log</button>
       <Footer />
     </main>
   );
