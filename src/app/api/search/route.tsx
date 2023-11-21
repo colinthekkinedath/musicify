@@ -1,9 +1,9 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const res = NextResponse;
-  const { query } = await req.json();
+  const genre = req.nextUrl.searchParams.get("genre");
   try {
     const response = await axios.post(
       "https://accounts.spotify.com/api/token",
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
       "https://api.spotify.com/v1/search",
       {
         params: {
-          q: query,
+          q: genre,
           type: "artist",
         },
         headers: {

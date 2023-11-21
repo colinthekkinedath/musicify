@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { useChat } from "ai/react";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { NextApiResponse } from "next";
 
 export default function Home() {
   const [description, setDescription] = useState("");
@@ -28,9 +29,7 @@ export default function Home() {
   const search = async () => {
     try {
       const response = await axios.get("/api/search", {
-        params: {
-          query: "genre:country",
-        },
+        params: { genre: "genre:country" },
       });
       setResults(response.data);
     } catch (error) {
