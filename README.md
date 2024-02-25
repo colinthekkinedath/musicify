@@ -9,6 +9,7 @@
 Musicify is a website to help you settle on a mood. We know its hard to decide what music to listen to, so simply type in a mood your feeling and have ChatGPT generate up to 6 songs recommendations based on that mood.
 
 ## How it works
+
 By typing in a prompt and passing it into the OpenAI API, we generate a recommendation object which we can then feed into Spotify API in order to generate up to six tracks that help fit whatever mood your looking for.
 
 ## Node.js

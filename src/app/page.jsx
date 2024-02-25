@@ -8,10 +8,8 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Home() {
-  const [description, setDescription] = useState("");
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [recommendation, setRecommendation] = useState({});
   const [results, setResults] = useState(null);
 
   const generateRecs = async () => {
@@ -25,7 +23,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <main className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
@@ -52,20 +50,22 @@ export default function Home() {
             get recommendations &rarr;
           </button>
         )}
-        {isLoading && <ImSpinner8 className="animate-spin flex w-full justify-center" />}
+        {isLoading && (
+          <ImSpinner8 className="animate-spin flex w-full justify-center" />
+        )}
       </div>
       <div className="grid lg:grid-cols-3 gap-x-7 gap-y-14 sm:grid-cols-1 md:grid-cols-2">
-        {results && 
+        {results &&
           results.map((track, idx) => (
-            <Card 
+            <Card
               key={idx}
               image={track.album.images[0].url}
               title={track.name}
               artist={track.artists[0].name}
               album={track.album.name}
+              link={track.external_urls.spotify}
             />
-          ))
-        }
+          ))}
       </div>
       <Footer />
     </main>
