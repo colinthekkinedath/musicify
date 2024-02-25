@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import Hero from "./components/Hero";
-import Card from "./components/Card";
-import Footer from "./components/Footer";
+import Hero from "../components/Hero";
+import Card from "../components/Card";
+import Footer from "../components/Footer";
 import { useChat } from "ai/react";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
