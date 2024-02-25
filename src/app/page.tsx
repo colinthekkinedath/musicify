@@ -3,28 +3,26 @@ import Image from "next/image";
 import Hero from "../components/Hero";
 import Card from "../components/Card";
 import Footer from "../components/Footer";
-import { useChat } from "ai/react";
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { NextApiResponse } from "next";
 
 export default function Home() {
   const [description, setDescription] = useState("");
-  const [recommednation, setRecommedation] = useState({});
-
+  const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [recommendation, setRecommendation] = useState({});
   const [results, setResults] = useState(null);
 
-  const { input, handleInputChange, handleSubmit, isLoading, messages } =
-    useChat({
-      body: {
-        description,
-      },
-    });
-
-  const onSubmit = (e: any) => {
-    setDescription(input);
-    handleSubmit(e);
-  };
+  const generateRecs = async () => {
+    try {
+      const response = await axios.post("/api/openai", {
+        params: { description: prompt },
+      });
+      setRecommendation(response.data.recomendation);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const search = async () => {
     try {
@@ -38,10 +36,9 @@ export default function Home() {
   };
 
   const recs = async () => {
-    setRecommedation(messages[messages.length - 1].content);
     try {
       const response = await axios.get("/api/getRecs", {
-        params: recommednation,
+        params: recommendation,
       });
       setResults(response.data);
     } catch (error) {
@@ -49,14 +46,10 @@ export default function Home() {
     }
   };
 
-  const lastMessage = messages[messages.length - 1];
-  const generatedRecommendations: string =
-    lastMessage?.role === "assistant" ? lastMessage.content : "";
-
   return (
     <main className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Hero />
-      <form className="max-w-xl w-full" onSubmit={handleSubmit}>
+      <div className="max-w-xl w-full">
         <div className="text-left mt-10 text-2xl font-bold">step 1.</div>
         <div className="flex items-center space-x-3">
           <p className="text-left font-medium">
@@ -64,8 +57,8 @@ export default function Home() {
           </p>
         </div>
         <textarea
-          value={input}
-          onChange={handleInputChange}
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
           rows={4}
           className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5 text-stone-900"
           placeholder={"e.g. watching sunset on a beach"}
@@ -73,7 +66,7 @@ export default function Home() {
         {!isLoading && (
           <button
             className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-            type="submit"
+            onClick={generateRecs}
           >
             get recommendations &rarr;
           </button>
@@ -90,7 +83,7 @@ export default function Home() {
             </span>
           </button>
         )}
-      </form>
+      </div>
       <div className="grid lg:grid-cols-3 gap-x-7 gap-y-14 sm:grid-cols-1 md:grid-cols-2">
         <Card
           image={
@@ -148,7 +141,7 @@ export default function Home() {
         />
       </div>
       <button onClick={search}>console log</button>
-      <button onClick={() => console.log(results)}>console log</button>
+      <button onClick={() => console.log(recommendation)}>console log</button>
       <Footer />
     </main>
   );
