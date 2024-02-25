@@ -1,14 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-interface ReccomendationCard {
-  image: string;
-  title: string;
-  artist: string;
-  album: string;
-}
-
-const Card: React.FC<ReccomendationCard> = ({
+const Card = ({
   image,
   title,
   artist,

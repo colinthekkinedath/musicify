@@ -1,10 +1,10 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import axios from "axios";
 
 const openai = new OpenAI();
 
-export async function POST(req: NextRequest) {
+export async function POST(req) {
     const res = NextResponse;
 
     const { params } = await req.json();
