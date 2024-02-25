@@ -10,6 +10,7 @@ Musicify is a website to help you settle on a mood. We know its hard to decide w
 
 ## How it works
 By typing in a prompt and passing it into the OpenAI API, we generate a recommendation object which we can then feed into Spotify API in order to generate up to six tracks that help fit whatever mood your looking for.
+![Demo](https://github.com/colinthekkinedath/musicify/assets/54488379/b96eb7b8-2642-4468-bbc7-d9a29483e2d5)
 
 ## Node.js
 
