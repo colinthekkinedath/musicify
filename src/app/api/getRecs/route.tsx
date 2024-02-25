@@ -1,9 +1,10 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const res = NextResponse;
-  const { parameters } = await req.json();
+  const rec = JSON.parse(req.nextUrl.searchParams.get("recommendation"));
+  console.log(rec);
   try {
     const response = await axios.post(
       "https://accounts.spotify.com/api/token",
@@ -23,7 +24,7 @@ export async function GET(req: Request) {
     const recommendations = await axios.get(
       "https://api.spotify.com/v1/recommendations",
       {
-        params: parameters,
+        params: rec,
         headers: {
           Authorization: `Bearer ${response.data.access_token}`,
         },
@@ -35,6 +36,7 @@ export async function GET(req: Request) {
       { status: 200 },
     );
   } catch (error) {
+    console.log(error.message);
     console.log(error);
     return res.json({ message: error }, { status: 500 });
   }

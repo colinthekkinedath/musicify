@@ -38,9 +38,10 @@ export default function Home() {
   const recs = async () => {
     try {
       const response = await axios.get("/api/getRecs", {
-        params: recommendation,
+        params: { recommendation: JSON.stringify(recommendation) },
       });
       setResults(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -140,7 +141,7 @@ export default function Home() {
           genre={"genre"}
         />
       </div>
-      <button onClick={search}>console log</button>
+      <button onClick={recs}>console log</button>
       <button onClick={() => console.log(recommendation)}>console log</button>
       <Footer />
     </main>
