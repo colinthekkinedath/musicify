@@ -6,7 +6,6 @@ interface ReccomendationCard {
   title: string;
   artist: string;
   album: string;
-  genre: string;
 }
 
 const Card: React.FC<ReccomendationCard> = ({
@@ -14,7 +13,6 @@ const Card: React.FC<ReccomendationCard> = ({
   title,
   artist,
   album,
-  genre,
 }) => {
   return (
     <div className="max-w-sm bg-white bg-opacity-5 border-gray-200 rounded-lg shadow transform transition duration-500 hover:scale-110">
@@ -26,7 +24,6 @@ const Card: React.FC<ReccomendationCard> = ({
           <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
           <p className="mt-2 text-lg text-gray-600">{artist}</p>
           <p className="mt-2 text-lg text-gray-600">{album}</p>
-          <p className="mt-2 text-lg text-gray-600">{genre}</p>
         </div>
       </div>
     </div>

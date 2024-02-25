@@ -3,6 +3,7 @@ import Image from "next/image";
 import Hero from "../components/Hero";
 import Card from "../components/Card";
 import Footer from "../components/Footer";
+import { ImSpinner8 } from "react-icons/im";
 import { useState } from "react";
 import axios from "axios";
 
@@ -15,37 +16,16 @@ export default function Home() {
 
   const generateRecs = async () => {
     try {
-      const response = await axios.post("/api/openai", {
+      setIsLoading(true);
+      const response = await axios.post("/api/getRecs", {
         params: { description: prompt },
       });
-      setRecommendation(response.data.recomendation);
+      setResults(response.data.result);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   }
-
-  const search = async () => {
-    try {
-      const response = await axios.get("/api/search", {
-        params: { genre: "genre:country" },
-      });
-      setResults(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const recs = async () => {
-    try {
-      const response = await axios.get("/api/getRecs", {
-        params: { recommendation: JSON.stringify(recommendation) },
-      });
-      setResults(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <main className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
@@ -72,77 +52,21 @@ export default function Home() {
             get recommendations &rarr;
           </button>
         )}
-        {isLoading && (
-          <button
-            className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-            disabled
-          >
-            <span className="loading">
-              <span style={{ backgroundColor: "white" }} />
-              <span style={{ backgroundColor: "white" }} />
-              <span style={{ backgroundColor: "white" }} />
-            </span>
-          </button>
-        )}
+        {isLoading && <ImSpinner8 className="animate-spin flex w-full justify-center" />}
       </div>
       <div className="grid lg:grid-cols-3 gap-x-7 gap-y-14 sm:grid-cols-1 md:grid-cols-2">
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
-        <Card
-          image={
-            "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-          }
-          title={"title"}
-          artist={"artist"}
-          album={"album"}
-          genre={"genre"}
-        />
+        {results && 
+          results.map((track, idx) => (
+            <Card 
+              key={idx}
+              image={track.album.images[0].url}
+              title={track.name}
+              artist={track.artists[0].name}
+              album={track.album.name}
+            />
+          ))
+        }
       </div>
-      <button onClick={recs}>console log</button>
-      <button onClick={() => console.log(recommendation)}>console log</button>
       <Footer />
     </main>
   );
