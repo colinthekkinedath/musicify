@@ -15,7 +15,7 @@ const Footer = () => {
       </div>
       <div className="flex space-x-4 pb-4 sm:pb-0">
         <Link
-          href="https://github.com/colinthekkinedath/musicify"
+          href="https://github.com/khandrew1/musicify"
           className="group"
           aria-label="GitHub"
         >

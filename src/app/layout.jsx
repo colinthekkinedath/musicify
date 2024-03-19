@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           <div className="-z-1 bg-night absolute inset-0">
             <div className="fixed w-screen h-screen pointer-events-none bg-scroll">
               <Image
-                src="/../../bg_circle.png"
+                src="/bg_circle.png"
                 alt={""}
                 layout="fill"
                 objectFit="cover"
